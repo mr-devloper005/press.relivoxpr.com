@@ -39,13 +39,13 @@ export function postHref(task: TaskKey, post: SitePost, route = `/${task}`) {
 
 export function EditorialFeatureCard({ post, href, label = 'Cover story' }: { post: SitePost; href: string; label?: string }) {
   return (
-    <Link href={href} className="group block min-w-0 bg-black text-white">
-      <div className="relative aspect-[16/10] min-h-[430px] overflow-hidden">
+    <Link href={href} className="group block min-w-0 overflow-hidden bg-black text-white shadow-[0_18px_45px_rgba(2,61,92,.25)]">
+      <div className="relative aspect-[16/10] min-h-[390px] overflow-hidden">
         <img src={getEditablePostImage(post)} alt={post.title} className="absolute inset-0 h-full w-full object-cover transition duration-700 group-hover:scale-[1.025]" />
-        <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(0,0,0,.05),rgba(0,0,0,.88))]" />
+        <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(2,61,92,.08),rgba(2,20,31,.9))]" />
         <div className="absolute inset-x-0 bottom-0 p-6 sm:p-9">
-          <span className="bg-[var(--slot4-accent-fill)] px-3 py-2 text-[10px] font-black uppercase tracking-[.18em]">{label}</span>
-          <h3 className="mt-5 max-w-4xl text-4xl font-black leading-[.97] tracking-[-.055em] sm:text-6xl">{post.title}</h3>
+          <span className="bg-[var(--slot4-gold)] px-3 py-2 text-[10px] font-black uppercase tracking-[.14em] text-black">{label}</span>
+          <h3 className="mt-5 max-w-4xl text-4xl font-black leading-[1] tracking-[-.03em] sm:text-5xl">{post.title}</h3>
           <p className="mt-5 max-w-2xl text-sm leading-7 text-white/80 sm:text-base">{getEditableExcerpt(post, 190)}</p>
         </div>
       </div>
@@ -55,7 +55,7 @@ export function EditorialFeatureCard({ post, href, label = 'Cover story' }: { po
 
 export function RailPostCard({ post, href, index }: { post: SitePost; href: string; index: number }) {
   return (
-    <Link href={href} className={`group ${dc.layout.minRailCard} block border-t-4 border-black bg-[var(--slot4-surface-bg)] ${dc.motion.lift}`}>
+    <Link href={href} className={`group ${dc.layout.minRailCard} block overflow-hidden border border-black/10 bg-[var(--slot4-surface-bg)] shadow-sm ${dc.motion.lift}`}>
       <div className="relative aspect-[4/3] overflow-hidden bg-[var(--slot4-media-bg)]">
         <img src={getEditablePostImage(post)} alt={post.title} className="absolute inset-0 h-full w-full object-cover transition duration-500 group-hover:scale-105" />
       </div>
@@ -71,11 +71,27 @@ export function RailPostCard({ post, href, index }: { post: SitePost; href: stri
 
 export function CompactIndexCard({ post, href, index }: { post: SitePost; href: string; index: number }) {
   return (
-    <Link href={href} className="group grid min-w-0 grid-cols-[46px_1fr] gap-4 border-t border-black/20 py-5 first:border-t-0">
+    <Link href={href} className="group grid min-w-0 grid-cols-[46px_1fr] gap-4 border-t border-black/15 bg-white/70 py-5 first:border-t-0">
       <span className="text-3xl font-black leading-none text-[var(--slot4-accent)]">{String(index + 1).padStart(2, '0')}</span>
       <div className="min-w-0">
         <p className="flex items-center gap-2 text-[10px] font-black uppercase tracking-[.18em] text-black/50"><Clock3 className="h-3 w-3" /> {getEditableCategory(post)}</p>
         <h3 className="mt-2 line-clamp-3 text-lg font-black leading-tight tracking-[-.03em] group-hover:text-[var(--slot4-accent)]">{post.title}</h3>
+      </div>
+    </Link>
+  )
+}
+
+export function ImageFirstCard({ post, href, index }: { post: SitePost; href: string; index: number }) {
+  return (
+    <Link href={href} className="group block overflow-hidden bg-white text-black shadow-[0_16px_40px_rgba(0,0,0,.2)] transition duration-300 hover:-translate-y-2">
+      <div className={index % 2 === 0 ? 'relative aspect-[3/4] overflow-hidden bg-[var(--slot4-media-bg)]' : 'relative aspect-[4/5] overflow-hidden bg-[var(--slot4-media-bg)]'}>
+        <img src={getEditablePostImage(post)} alt={post.title} className="absolute inset-0 h-full w-full object-cover transition duration-700 group-hover:scale-110" />
+        <div className="absolute left-4 top-4 bg-[var(--slot4-gold)] px-3 py-1 text-[10px] font-black uppercase tracking-[.12em]">0{index + 1}</div>
+      </div>
+      <div className="p-5">
+        <p className="text-[10px] font-black uppercase tracking-[.18em] text-[var(--slot4-accent)]">{getEditableCategory(post)}</p>
+        <h3 className="mt-3 line-clamp-3 text-2xl font-black leading-tight">{post.title}</h3>
+        <p className="mt-3 line-clamp-3 text-sm leading-6 text-black/65">{getEditableExcerpt(post, 130)}</p>
       </div>
     </Link>
   )
