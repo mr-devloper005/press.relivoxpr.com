@@ -16,14 +16,14 @@ body {
 }
 
 *::selection {
-  background: var(--editorial-red) !important;
-  color: #fff !important;
-  -webkit-text-fill-color: #fff;
+  background: #ffd766 !important;
+  color: #071b28 !important;
+  -webkit-text-fill-color: #071b28;
 }
 
 *::-moz-selection {
-  background: var(--editorial-red) !important;
-  color: #fff !important;
+  background: #ffd766 !important;
+  color: #071b28 !important;
 }
 
 ::-webkit-scrollbar { width: 10px; height: 10px; }
