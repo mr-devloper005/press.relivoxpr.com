@@ -75,7 +75,7 @@ export function EditableHomeHero({ primaryTask, primaryRoute, posts }: HomeSecti
             Connect announcements, expert commentary, brand stories, and public updates with readers across online, print, and electronic media.
           </p>
           <div className="mt-10 flex flex-wrap justify-center gap-4">
-            <Link href={primaryRoute} className="rounded border border-[var(--slot4-gold)] px-10 py-3 text-sm font-bold uppercase text-white transition hover:bg-[var(--slot4-gold)] hover:text-black">Press Release Distribution</Link>
+            <Link href="/search" className="rounded border border-[var(--slot4-gold)] px-10 py-3 text-sm font-bold uppercase text-white transition hover:bg-[var(--slot4-gold)] hover:text-black">Press Release Distribution</Link>
             {lead ? <Link href={postHref(primaryTask, lead, primaryRoute)} className="rounded bg-white/10 px-10 py-3 text-sm font-bold uppercase text-white ring-1 ring-white/40 backdrop-blur transition hover:bg-white hover:text-black">Latest Update</Link> : null}
           </div>
         </div>
@@ -84,7 +84,7 @@ export function EditableHomeHero({ primaryTask, primaryRoute, posts }: HomeSecti
   )
 }
 
-export function EditableStoryRail({ primaryTask: _primaryTask, primaryRoute, posts }: HomeSectionProps) {
+export function EditableStoryRail({ primaryTask: _primaryTask, primaryRoute: _primaryRoute, posts }: HomeSectionProps) {
   const usable = safePosts(posts)
   const marquee = [...publicationLogos, ...publicationLogos]
   return (
@@ -108,20 +108,13 @@ export function EditableStoryRail({ primaryTask: _primaryTask, primaryRoute, pos
 
       <section className="bg-white pb-16">
         <div className="mx-auto max-w-[1140px] px-4 sm:px-6 lg:px-0">
-          <div className="flex flex-wrap justify-center gap-5">
-            {['Submit Press Release', 'Comprehensive PR Portal', 'Press Release Distribution', 'Why Choose Us'].map((item, index) => (
-              <Link key={item} href={index === 3 ? '/about' : primaryRoute} className={`${index === 0 ? 'bg-white text-[var(--slot4-accent)] shadow-[0_8px_22px_rgba(0,0,0,.18)]' : 'bg-[var(--slot4-accent)] text-white'} rounded px-5 py-3 text-xl transition hover:-translate-y-1`}>
-                {item}
-              </Link>
-            ))}
-          </div>
-          <div className="mt-16 grid items-center gap-10 lg:grid-cols-[.9fr_1.1fr]">
+          <div className="grid items-center gap-10 lg:grid-cols-[.9fr_1.1fr]">
             <div>
               <h2 className="text-4xl font-black leading-tight text-[var(--slot4-accent)]">Press Release Distribution Services</h2>
               <p className="mt-8 text-xl leading-9">
                 Share announcements with a focused media audience, organize your message, and make every release easier for publishers, journalists, and readers to understand.
               </p>
-              <Link href={primaryRoute} className={`${dc.button.accent} mt-8`}>Buy Package</Link>
+              <Link href="/search" className={`${dc.button.accent} mt-8`}>Buy Package</Link>
             </div>
             <div className="relative min-h-[310px] overflow-hidden">
               {usable[1] ? <img src={getEditablePostImage(usable[1])} alt="" className="h-full min-h-[310px] w-full object-cover" /> : <div className="grid min-h-[310px] place-items-center bg-[var(--slot4-panel-bg)] text-2xl font-black text-[var(--slot4-accent)]">Media Planning Desk</div>}
@@ -182,7 +175,7 @@ export function EditableMagazineSplit({ primaryTask, primaryRoute, posts }: Home
         <div className="relative mx-auto max-w-[1140px] px-4 py-16 text-center sm:px-6 lg:px-0">
           <h2 className="text-3xl font-black uppercase tracking-wider">Press Release Distribution in India</h2>
           <p className="mx-auto mt-4 max-w-3xl text-xl">Submit your release, organize the message, and help readers find your announcement across digital and print channels.</p>
-          <Link href={primaryRoute} className={`${dc.button.accent} mt-8`}>More Details</Link>
+          <Link href="/search" className={`${dc.button.accent} mt-8`}>More Details</Link>
           <div className="mt-16 grid gap-5 lg:grid-cols-[1.4fr_.8fr_.8fr]">
             {feature ? <EditorialFeatureCard post={feature} href={postHref(primaryTask, feature, primaryRoute)} label="Featured release" /> : null}
             {rail.slice(0, 2).map((post, index) => <ImageFirstCard key={post.id || post.slug} post={post} href={postHref(primaryTask, post, primaryRoute)} index={index} />)}
@@ -207,7 +200,7 @@ export function EditableTimeCollections({ primaryTask, primaryRoute, posts, time
           <div>
             <h2 className="text-3xl font-black uppercase text-[var(--slot4-deep)]">Coverage in Digital & Print Media</h2>
             <p className="mt-7 text-xl leading-9">Send announcements with a structure built for discovery, clarity, and broad public communication.</p>
-            <Link href={primaryRoute} className={`${dc.button.primary} mt-8`}>Submit Press Release</Link>
+            <Link href="/search" className={`${dc.button.primary} mt-8`}>Submit Press Release</Link>
           </div>
           <div>
             <h2 className="text-3xl font-black uppercase text-[var(--slot4-deep)]">Placement on Premium Sites</h2>
@@ -225,7 +218,7 @@ export function EditableTimeCollections({ primaryTask, primaryRoute, posts, time
               <h3 className="text-2xl font-black uppercase text-[var(--slot4-accent)]">The best solution for enhancing your PR campaign</h3>
               <p className="mt-3">Use a focused publishing flow for announcements at every stage of growth.</p>
             </div>
-            <Link href={primaryRoute} className={`${dc.button.accent}`}>Buy now</Link>
+            <Link href="/search" className={`${dc.button.accent}`}>Buy now</Link>
           </div>
         </div>
       </section>
@@ -316,7 +309,7 @@ export function EditableHomeCta() {
             <h3 className="text-2xl font-black uppercase text-[var(--slot4-accent)]">The best solution for your business</h3>
             <p className="mt-3">Useful for small updates, larger campaigns, and ongoing public communication.</p>
           </div>
-          <Link href="/media-distribution" className={dc.button.accent}>Send Press Release</Link>
+          <Link href="/search" className={dc.button.accent}>Send Press Release</Link>
         </div>
         <form action="/search" className="mx-auto mt-10 flex max-w-2xl border border-black/15 bg-white shadow-sm">
           <Search className="ml-4 mt-4 h-4 w-4 text-[var(--slot4-accent)]" />

@@ -4,11 +4,12 @@ import Link from 'next/link'
 import { Phone } from 'lucide-react'
 import { globalContent } from '@/editable/content/global.content'
 import { useEditableLocalAuthSession } from '@/editable/components/EditableLocalAuthForms'
-import { siteLinks } from '@/editable/shell/EditableNavbar'
+import { getVisibleSiteLinks } from '@/editable/shell/EditableNavbar'
 
 export function EditableFooter() {
   const year = new Date().getFullYear()
   const { session, logout } = useEditableLocalAuthSession()
+  const visibleLinks = getVisibleSiteLinks(Boolean(session))
 
   return (
     <footer className="bg-white text-black">
@@ -24,21 +25,26 @@ export function EditableFooter() {
           <div>
             <h3 className="font-black underline underline-offset-4">Links</h3>
             <div className="mt-4 grid gap-3">
-              {siteLinks.map((item) => <Link key={item.href} href={item.href} className="text-sm hover:underline">{item.label}</Link>)}
+              {session ? (
+                <button onClick={logout} className="self-start text-left text-sm hover:underline">Logout</button>
+              ) : (
+                visibleLinks.map((item) => <Link key={item.href} href={item.href} className="text-sm hover:underline">{item.label}</Link>)
+              )}
             </div>
           </div>
-          {session ? <button onClick={logout} className="self-start text-left text-sm hover:underline lg:col-start-2">Logout</button> : null}
         </div>
       </div>
       <div className="mx-auto flex max-w-[1140px] flex-col items-center justify-between gap-5 px-4 py-6 text-sm sm:px-6 lg:flex-row lg:px-0">
-        <div className="flex flex-wrap justify-center gap-3">
-          {siteLinks.map((item, index) => (
-            <span key={item.href} className="inline-flex items-center gap-3">
-              {index ? <span className="text-black/25">|</span> : null}
-              <Link href={item.href} className="hover:text-[var(--slot4-accent)]">{item.label}</Link>
-            </span>
-          ))}
-        </div>
+        {!session ? (
+          <div className="flex flex-wrap justify-center gap-3">
+            {visibleLinks.map((item, index) => (
+              <span key={item.href} className="inline-flex items-center gap-3">
+                {index ? <span className="text-black/25">|</span> : null}
+                <Link href={item.href} className="hover:text-[var(--slot4-accent)]">{item.label}</Link>
+              </span>
+            ))}
+          </div>
+        ) : null}
         <p className="max-w-xl text-center text-black/70">{globalContent.footer?.description || 'Get coverage in digital and print media with clear public updates.'}</p>
         <p className="text-center">RelivoxPR Press (c) {year}. All Rights Reserved.</p>
       </div>
