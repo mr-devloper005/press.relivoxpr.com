@@ -11,17 +11,23 @@ export const siteLinks = [
   { label: 'About', href: '/about' },
   { label: 'Contact', href: '/contact' },
   { label: 'Sign In', href: '/login' },
-  { label: 'Distribution', href: '/media-distribution' },
+  { label: 'Sign Up', href: '/signup' },
   { label: 'Search', href: '/search' },
 ]
+
+const authLinkHrefs = new Set(['/login', '/signup'])
+
+export function getVisibleSiteLinks(isLoggedIn: boolean) {
+  return isLoggedIn ? siteLinks.filter((item) => !authLinkHrefs.has(item.href)) : siteLinks
+}
 
 function BrandMark() {
   return (
     <span className="inline-flex items-center gap-2 text-black">
       <img src="/favicon.png" alt="" className="h-16 w-16 rounded-full object-cover sm:h-20 sm:w-20" />
-      <span className="ipr-logo-text text-2xl sm:text-3xl">Relivox</span>
-      <span className="ipr-logo-mark text-xl">PR</span>
       <span className="ipr-logo-text text-2xl sm:text-3xl">Press</span>
+      <span className="ipr-logo-mark text-xl">PR</span>
+      <span className="ipr-logo-text text-2xl sm:text-3xl">Relivox</span>
     </span>
   )
 }
@@ -29,6 +35,7 @@ function BrandMark() {
 export function EditableNavbar() {
   const [open, setOpen] = useState(false)
   const { session, logout } = useEditableLocalAuthSession()
+  const visibleLinks = getVisibleSiteLinks(Boolean(session))
 
   return (
     <header className="sticky top-0 z-50 bg-white text-black shadow-[0_2px_10px_rgba(2,61,92,.12)]">
@@ -47,13 +54,15 @@ export function EditableNavbar() {
         </Link>
 
         <nav className="hidden items-center justify-end gap-7 text-sm lg:flex">
-          {siteLinks.map((item) => <Link key={item.href} href={item.href} className="whitespace-nowrap transition hover:text-[var(--slot4-accent)]">{item.label}</Link>)}
+          {visibleLinks.map((item) => <Link key={item.href} href={item.href} className="whitespace-nowrap transition hover:text-[var(--slot4-accent)]">{item.label}</Link>)}
           <form action="/search" className="flex h-9 w-9 items-center justify-center overflow-hidden rounded-full border border-black/10 transition focus-within:w-56 hover:border-[var(--slot4-accent)]">
             <Search className="mx-2 h-4 w-4 shrink-0 text-[var(--slot4-accent)]" />
             <input name="q" type="search" aria-label="Search" placeholder="Search" className="min-w-0 flex-1 bg-transparent py-2 pr-3 text-xs outline-none" />
           </form>
           {session ? (
             <>
+              <span className="max-w-36 truncate text-xs font-black uppercase tracking-[.1em] text-[var(--slot4-deep)]">{session.name}</span>
+              <Link href="/create" className="text-xs font-black uppercase tracking-[.1em] text-[var(--slot4-accent)]">Create</Link>
               <button type="button" onClick={logout} className="text-xs font-black uppercase tracking-[.1em]">Logout</button>
             </>
           ) : null}
@@ -63,10 +72,16 @@ export function EditableNavbar() {
       {open ? (
         <div className="border-t border-black/10 bg-white px-4 py-4 lg:hidden">
           <div className="grid gap-2">
-            {siteLinks.map((item) => (
+            {visibleLinks.map((item) => (
               <Link key={`${item.label}-${item.href}`} href={item.href} onClick={() => setOpen(false)} className="rounded border border-black/10 bg-[var(--slot4-cream)] px-4 py-3 text-sm font-black uppercase tracking-[.08em]">{item.label}</Link>
             ))}
-            {session ? <button type="button" onClick={() => { logout(); setOpen(false) }} className="rounded border border-black/10 bg-white px-4 py-3 text-left text-sm font-black uppercase tracking-[.08em]">Logout</button> : null}
+            {session ? (
+              <>
+                <div className="rounded border border-black/10 bg-white px-4 py-3 text-sm font-black uppercase tracking-[.08em] text-[var(--slot4-deep)]">{session.name}</div>
+                <Link href="/create" onClick={() => setOpen(false)} className="rounded border border-black/10 bg-[var(--slot4-accent)] px-4 py-3 text-sm font-black uppercase tracking-[.08em] text-white">Create</Link>
+                <button type="button" onClick={() => { logout(); setOpen(false) }} className="rounded border border-black/10 bg-white px-4 py-3 text-left text-sm font-black uppercase tracking-[.08em]">Logout</button>
+              </>
+            ) : null}
             <form action="/search" className="flex rounded border border-black/15 bg-white">
               <Search className="ml-3 mt-3.5 h-4 w-4 text-[var(--slot4-accent)]" />
               <input name="q" type="search" placeholder="Search posts" className="min-w-0 flex-1 bg-transparent px-3 py-3 text-sm outline-none" />
